@@ -15,9 +15,52 @@ Evidenziare le festività nella lista
 
 $(document).ready(function () {
 
-  var month = 1;
+   var month = 1;
 
-  function generaMese(mese) {
+   generaMese(month);
+
+   $("#next-month").click(function(){
+      if(month == 12){
+
+         month = 1
+
+         $(".calendar").html("")
+
+         generaMese(month);
+
+      } else{
+         month++;
+         $(".calendar").html("")
+
+         generaMese(month);
+
+      }
+
+   })
+
+   $("#prev-month").click(function(){
+
+      if(month == 1){
+
+         month = 12;
+
+         $(".calendar").html("")
+
+         generaMese(month);
+
+      }else {
+
+      month--;
+
+      $(".calendar").html("")
+
+      generaMese(month);
+
+      }
+
+   })
+
+  function generaMese(month) {
     //dinamicizzo
 
     $.ajax({
@@ -42,15 +85,17 @@ $(document).ready(function () {
 
             for (var i = 0; i < data.response.length; i++) {
 
-               $(".calendar [data-date='" + data.response[i].date + "']").addClass("holidays").append(' ' + data.response[i].name)
+               $(".calendar [data-date='" + data.response[i].date + "']").css('color', 'red').append(' ' + data.response[i].name)
             }
 
+      },
+
+      error: function (request, condition, error) {
+         alert("Errore " + " " + request + " " + condition + " " + error);
 
       }
 
     })
   };
-
-  generaMese(month);
 
 });
