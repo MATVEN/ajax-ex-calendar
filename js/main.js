@@ -22,7 +22,7 @@ $(document).ready(function () {
 
     $.ajax({
 
-      url: "https://flynn.boolean.careers/exercises/api/holidays?year=2018&month=0" + (month-1),
+      url: "https://flynn.boolean.careers/exercises/api/holidays?year=2018&month=" + (month - 1),
       method: "GET",
       success: function (data) {
 
@@ -35,25 +35,22 @@ $(document).ready(function () {
           var dateForm = moment(currentDate).format("YYYY-MM-DD");
 
           var currentDay = moment('2018-' + month + '-' + i).format('DD dddd');
-          console.log(currentDay);
+
           $(".calendar").append('<li data-date="' + dateForm + '">'+ currentDay +'</li>');
 
         }
 
-        for (var i = 0; i < data.response.length; i++) {
-          var holidayDate = data.response[i].date;
-          console.log(data.response[i].date);
-          var holidayName = data.response[i].name;
-          console.log(data.response[i].name);
+            for (var i = 0; i < data.response.length; i++) {
 
-          $(".calendar [data-date='" + holidayDate + "']").css("color", "red").append(" " + holidayName)
-        }
+               $(".calendar [data-date='" + data.response[i].date + "']").addClass("holidays").append(' ' + data.response[i].name)
+            }
 
-      },
 
-    });
-  }
+      }
 
-  generaMese(1);
+    })
+  };
+
+  generaMese(month);
 
 });
