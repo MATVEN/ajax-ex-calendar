@@ -19,25 +19,37 @@ $(document).ready(function () {
 
    generaMese(month);
 
+   // funzione per andare avanti con in mesi sul calendario
    $("#next-month").click(function(){
+
+     // pongo condizione per stabilire la lunghezza del calendario
       if(month == 12){
 
-         month = 1
+        // stabilisco mese di partenza
+         month = 1;
 
+         // svuota il contenuto di calendar e evita la concatenazione
          $(".calendar").html("")
 
+         // richiamo la funzione
          generaMese(month);
 
       } else{
+
+        // incremento la variabile month per arrivare
          month++;
+
+         //
          $(".calendar").html("")
 
+         // richiamo la funzione
          generaMese(month);
 
       }
 
    })
 
+   // funzione per andare indietro con in mesi sul calendario
    $("#prev-month").click(function(){
 
       if(month == 1){
@@ -69,24 +81,31 @@ $(document).ready(function () {
       method: "GET",
       success: function (data) {
 
+        // durata giorni nel mese
         var daysNumber = moment('01/' + month + '/2018', 'DD/MM/YYYY').daysInMonth();
+
 
         for (var i = 1; i <= daysNumber; i++) {
 
+          // struttura la data del giorno consultato
           var currentDate = '2018-' + month + '-' + i;
 
+          // fotmato calendario
           var dateForm = moment(currentDate).format("YYYY-MM-DD");
 
+          // formato stampato in pagina
           var currentDay = moment('2018-' + month + '-' + i).format('DD dddd');
 
+          // stampa
           $(".calendar").append('<li data-date="' + dateForm + '">'+ currentDay +'</li>');
 
         }
 
-            for (var i = 0; i < data.response.length; i++) {
+        // ciclo per generare festività
+        for (var i = 0; i < data.response.length; i++) {
 
-               $(".calendar [data-date='" + data.response[i].date + "']").css('color', 'red').append(' ' + data.response[i].name)
-            }
+         $(".calendar [data-date='" + data.response[i].date + "']").css('color', 'red').append(' ' + data.response[i].name)
+        }
 
       },
 
@@ -94,8 +113,6 @@ $(document).ready(function () {
          alert("Errore " + " " + request + " " + condition + " " + error);
 
       }
-
     })
   };
-
 });
